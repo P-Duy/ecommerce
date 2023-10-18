@@ -7,7 +7,7 @@ from .models import User
 class RegisterUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ["email", "name", "last_name", "password"]
+        fields = ["email", "name", "last_name", "password", "is_staff"]
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):

@@ -21,7 +21,7 @@ const LoginPage = () => {
         mutationFn: () => loginRequest(email, password),
         onSuccess: (response) => {
             setToken(response.data.access, response.data.refresh)
-            toast.success("Login dude!")
+            toast.success("Đăng nhập thành công")
             navigate("/")
         },
         onError: () =>

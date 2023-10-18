@@ -43,9 +43,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "corsheaders",
     "rest_framework",
     "rest_framework_simplejwt.token_blacklist",
     "users",
+    "products",
 ]
 
 MIDDLEWARE = [
@@ -145,6 +147,13 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 CORS_ALLOWED_CREATORS = True
+CORS_ALLOW_CREDENTIALS = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+    )
+}
 
 
 SIMPLE_JWT = {
