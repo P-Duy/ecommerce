@@ -28,7 +28,6 @@ authAxios.interceptors.request.use(async (config) => {
         Authorization: `Bearer ${token}`,
     } as AxiosRequestHeaders;
 
-
     const tokenDecoded: Token = jwt_decode(token)
 
     const expiration = new Date(tokenDecoded.exp * 1000);
@@ -43,5 +42,4 @@ authAxios.interceptors.request.use(async (config) => {
             logout()
         }
     return config
-
 });

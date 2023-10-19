@@ -1,10 +1,11 @@
 export interface Product {
     id?: number
     name: string
+    slug?: string
     description: string
     price: number
     rating?: number
-    count_in_stock : number
+    count_in_stock: number
     category: string
     image: File | null;
     quantity?: number

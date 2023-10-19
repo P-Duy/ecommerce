@@ -1,4 +1,6 @@
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { PrivateRoute, AdminPrivateRoute } from "./components/PrivateRoute";
 import Layout from "./components/Layout"
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
@@ -6,7 +8,7 @@ import RegisterPage from "./pages/RegisterPage";
 
 import AdminPage from "./pages/AdminPage";
 import AddProductPage from "./pages/AddProductPage";
-
+import EditProductPage from "./pages/EditProductPage";
 
 
 function App() {
@@ -20,8 +22,14 @@ function App() {
           <Route path="register" element={<RegisterPage />} />
           <Route index element={<HomePage />} />
 
-          <Route path="admin" element={<AdminPage />} />
-          <Route path="add" element={<AddProductPage />} />
+          <Route element={<PrivateRoute />} >
+
+          </Route>
+          <Route path="admin" element={<AdminPrivateRoute />} >
+            <Route index element={<AdminPage />} />
+            <Route path="add" element={<AddProductPage />} />
+            <Route path="edit/:id" element={<EditProductPage />} />
+          </Route>
 
         </Route>
       </Routes>

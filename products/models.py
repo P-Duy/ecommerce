@@ -10,6 +10,7 @@ from users.models import User
 
 
 class Product(models.Model):
+    slug = models.SlugField(max_length=255, null=True, blank=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
     name = models.CharField(max_length=100, blank=True)
     image = models.ImageField(default="placeholder.png")

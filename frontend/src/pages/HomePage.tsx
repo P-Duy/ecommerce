@@ -9,6 +9,12 @@ import { useInView } from "react-intersection-observer";
 const HomePage = () => {
 
     const { ref, inView } = useInView()
+    useEffect(() => {
+        if (inView) {
+            fetchNextPage()
+        }
+    }, [inView]);
+
 
     const { data, isLoading, error, isFetchingNextPage, fetchNextPage, hasNextPage } = useInfiniteQuery(
         ['product'],
@@ -18,13 +24,7 @@ const HomePage = () => {
         }
     )
 
-    useEffect(() => {
-        if (inView) {
-            fetchNextPage()
-        }
-    }, [inView]);
 
-    if (isLoading) return <p>Loading...</p>
     if (error instanceof Error) return <>{toast.error(error.message)}</>
 
 

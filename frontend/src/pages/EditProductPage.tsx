@@ -1,11 +1,11 @@
-import React, { useState, ChangeEvent } from 'react';
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { post_product } from '../api/products';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, ChangeEvent, useEffect } from 'react';
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { edit_product, get_solo_prod } from '../api/products';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 
 
-const AddProductPage = () => {
+const EditProductPage = () => {
 
     const [name, setName] = useState<string>('');
     const [countInStock, setCountInStock] = useState<number>(0);
@@ -18,34 +18,64 @@ const AddProductPage = () => {
     const [isHovered, setIsHovered] = useState(false);
 
 
+
+    const { id } = useParams();
+
+    let prodId: number;
+    if (id !== undefined) {
+        prodId = Number(id);
+    }
+
+    const { data } = useQuery({
+        queryKey: ['products', id],
+        queryFn: () => get_solo_prod(prodId)
+
+    })
+
+
+    useEffect(() => {
+        if (data) {
+            setName(data.name)
+            setCountInStock(data.count_in_stock)
+            setDescription(data.description)
+            setCategory(data.category)
+            setPrice(data.price)
+            setImage(data.Image)
+        }
+    }, [data])
+
+
+
+
+
     const navigate = useNavigate();
     const queryClient = useQueryClient();
 
-    const addProdMutation = useMutation({
-        mutationFn: post_product,
+    const editProdMutation = useMutation({
+        mutationFn: edit_product,
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["products"] });
-            toast.success("Thêm sản phẩm thành công !")
+            toast.success("Sửa thành công !")
             navigate('/admin');
         },
         onError: () => {
-            toast.error("Thêm sản phẩm thất bại!!! !")
+            toast.error("Sửa thất bại!!! !")
             navigate('/admin');
         },
     });
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        addProdMutation.mutate({
+        editProdMutation.mutate({
             name: name,
             count_in_stock: countInStock,
             category: category,
             description: description,
             price: price,
-            image: image
-        });
-        // close()
+            image: image,
+            id: prodId,
 
+        });
     };
 
     const handleNameChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -98,7 +128,7 @@ const AddProductPage = () => {
         setIsHovered(false)
     }
 
-    if (addProdMutation.isLoading) return <p>Loading...</p>
+    if (editProdMutation.isLoading) return <p>Loading...</p>
 
     return (
         <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 ">
@@ -107,7 +137,7 @@ const AddProductPage = () => {
                     <div className="relative p-4 bg-white rounded-lg shadow dark:bg-gray-800 sm:p-5">
                         <div className="flex justify-between items-center pb-4 mb-4 rounded-t border-b sm:mb-5 dark:border-gray-600">
                             <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                                Add Product
+                                Sửa chi tiết sản phẩm
                             </h3>
                             <Link
                                 to="/admin"
@@ -138,7 +168,7 @@ const AddProductPage = () => {
                                         htmlFor="name"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Name
+                                        Tên
                                     </label>
                                     <input
                                         value={name}
@@ -156,7 +186,7 @@ const AddProductPage = () => {
                                         htmlFor="count_in_stock"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Count in Stock
+                                        Số lượng
                                     </label>
                                     <input
                                         value={countInStock}
@@ -174,7 +204,7 @@ const AddProductPage = () => {
                                         htmlFor="price"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Price
+                                        Giá
                                     </label>
                                     <input
                                         value={price}
@@ -210,7 +240,7 @@ const AddProductPage = () => {
                                         htmlFor="description"
                                         className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     >
-                                        Description
+                                        Mô tả
                                     </label>
                                     <input
                                         value={description}
@@ -296,7 +326,7 @@ const AddProductPage = () => {
                                                 </button>
                                                 <img
                                                     className="h-48 w-96"
-                                                    src={filePreview}
+                                                    src={filePreview || `${import.meta.env.VITE_BACKEND_URL}${data.image}`}
                                                     alt="Imagen seleccionada"
                                                 />
                                             </div>
@@ -320,7 +350,7 @@ const AddProductPage = () => {
                                         clip-rule="evenodd"
                                     ></path>
                                 </svg>
-                                Add new product
+                                Lưu
                             </button>
                         </form>
                     </div>
@@ -330,4 +360,4 @@ const AddProductPage = () => {
 
     )
 }
-export default AddProductPage;
+export default EditProductPage;

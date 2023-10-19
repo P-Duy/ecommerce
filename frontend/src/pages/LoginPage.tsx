@@ -5,6 +5,7 @@ import { useMutation } from "@tanstack/react-query";
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
 import { useAuthStore } from "../store/auth";
+import Loader from "../components/Loader";
 
 
 
@@ -25,7 +26,7 @@ const LoginPage = () => {
             navigate("/")
         },
         onError: () =>
-            toast.error("registration failed! Please re-enter")
+            toast.error("Đăng nhập thất bại")
     })
 
 
@@ -35,7 +36,7 @@ const LoginPage = () => {
     }
 
 
-    if (loginMutation.isLoading) return <p>Loading...</p>
+    if (loginMutation.isLoading) return <Loader />
     if (isAuth) return (<Navigate to="/" />)
 
 

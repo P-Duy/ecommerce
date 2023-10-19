@@ -35,7 +35,6 @@ const Header = () => {
 
     if (isAuth) {
         const tokenDecoded: Token = jwt_decode(token)
-        console.log(tokenDecoded)
         var is_admin = (tokenDecoded.is_staff);
     }
 
