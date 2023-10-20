@@ -9,4 +9,5 @@ urlpatterns = [
     path("post/", views.create_product),
     path("edit/<int:pk>/", views.edit_product),
     path("delete/<int:pk>/", views.delete_product),
+    path("cate/<str:category>/", views.get_prod_by_cate),
 ]

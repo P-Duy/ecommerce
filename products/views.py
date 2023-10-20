@@ -19,6 +19,13 @@ def get_products(request):
 
 
 @api_view(["GET"])
+def get_prod_by_cate(request, category):
+    products = Product.objects.filter(category=category)
+    serializer = ProductSerializer(products, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
 def search(request):
     query = request.query_params.get("query")
     if query is None:

@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { useInView } from "react-intersection-observer";
 
+
 const HomePage = () => {
 
     const { ref, inView } = useInView()

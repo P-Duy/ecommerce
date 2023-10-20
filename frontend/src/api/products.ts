@@ -1,6 +1,15 @@
 import { Product } from "../Interfaces";
 import { authAxios, axi } from "./userAxios";
 
+
+
+
+export const cate_api = async (cateogry: string) => {
+    const response = await authAxios.get(`/products/cate/${cateogry}/`)
+    return response.data;
+};
+
+
 export const search_prod = async (query: string) => {
     const response = await authAxios.get(`/products/search/?query=${query}`)
     return response.data;

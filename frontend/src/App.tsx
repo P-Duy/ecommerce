@@ -11,7 +11,8 @@ import SoloProduct from "./pages/SoloProduct";
 import AdminPage from "./pages/AdminPage";
 import AddProductPage from "./pages/AddProductPage";
 import EditProductPage from "./pages/EditProductPage";
-
+import CatePage from "./pages/CatePage";
+import SearchByCate from "./pages/SearchByCate";
 
 function App() {
 
@@ -24,6 +25,8 @@ function App() {
           <Route path="register" element={<RegisterPage />} />
           <Route index element={<HomePage />} />
           <Route path="product/:slug" element={<SoloProduct />} />
+          <Route path="cate" element={<CatePage />} />
+          <Route path="cate/:cate" element={<SearchByCate />} />
 
           <Route element={<PrivateRoute />} >
 
