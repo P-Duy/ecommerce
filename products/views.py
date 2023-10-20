@@ -19,6 +19,16 @@ def get_products(request):
 
 
 @api_view(["GET"])
+def search(request):
+    query = request.query_params.get("query")
+    if query is None:
+        query = ""
+    product = Product.objects.filter(name__icontains=query)
+    serializer = ProductSerializer(product, many=True)
+    return Response({"products": serializer.data})
+
+
+@api_view(["GET"])
 def get_product_admin(request, id):
     products = Product.objects.get(id=id)
     serializer = ProductSerializer(products, many=False)
