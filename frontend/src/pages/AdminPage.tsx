@@ -1,4 +1,6 @@
 import { useState } from "react"
+import { search_prod } from "../api/products";
+import { useQuery } from "@tanstack/react-query";
 import Products from "../components/Products"
 import Orders from "../components/Orders"
 import Users from "../components/Users"
@@ -8,6 +10,39 @@ const AdminPage = () => {
 
     const [show, setShow] = useState(0)
 
+
+
+    const [search, setSearch] = useState("");
+
+    const { data } = useQuery({
+        queryKey: ["products", search],
+        queryFn: () => {
+            if (search && show === 0) {
+                return search_prod(search);
+            }
+            return { products: [] };
+        },
+    });
+
+    // const { data: users } = useQuery({
+    //     queryKey: ["users", search],
+    //     queryFn: () => {
+    //         if (search && show === 2) {
+    //             return search_users(search);
+    //         }
+    //         return { users: [] };
+    //     },
+    // });
+
+    // const { data: orders } = useQuery({
+    //     queryKey: ["orders", search],
+    //     queryFn: () => {
+    //         if (search && show === 1) {
+    //             return search_order(search);
+    //         }
+    //         return { orders: [] };
+    //     },
+    // });
     // 1- search input
     // 2- if 0, 1, 2 hace fetch a una funcion diferente
     // 3- Motra los resultados en SearchUsers, SearchOrders, SearchProducts
@@ -27,7 +62,12 @@ const AdminPage = () => {
                                             <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
                                         </svg>
                                     </div>
-                                    <input type="text" id="simple-search" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500" placeholder="Search" />
+                                    <input
+                                        type="text"
+                                        onChange={(e) => setSearch(e.target.value)}
+                                        id="simple-search"
+                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+                                        placeholder="Search" />
                                 </div>
                             </form>
                         </div>
@@ -49,7 +89,7 @@ const AdminPage = () => {
                             </button>
                         </div>
                     </div>
-                    {show === 0 && <Products />}
+                    {show === 0 && <Products results={data} />}
                     {show === 1 && <Orders />}
                     {show === 2 && <Users />}
                 </div>
