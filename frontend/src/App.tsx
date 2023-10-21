@@ -13,6 +13,7 @@ import AddProductPage from "./pages/AddProductPage";
 import EditProductPage from "./pages/EditProductPage";
 import CatePage from "./pages/CatePage";
 import SearchByCate from "./pages/SearchByCate";
+import CartPage from "./pages/CartPage";
 
 function App() {
 
@@ -27,7 +28,7 @@ function App() {
           <Route path="product/:slug" element={<SoloProduct />} />
           <Route path="cate" element={<CatePage />} />
           <Route path="cate/:cate" element={<SearchByCate />} />
-
+          <Route path="cart/" element={<CartPage />} />
           <Route element={<PrivateRoute />} >
 
           </Route>

@@ -25,3 +25,12 @@ export interface User {
     name: string;
     last_name: string;
 };
+
+export interface Order {
+    total_price: number;
+    address: string
+    city: string
+    postal_code: string
+    order_items: Product[]
+};
+
