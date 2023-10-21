@@ -17,3 +17,7 @@ export const loginRequest = async (email: string, password: string) => {
 export const delete_user = async (id: number) => {
     await authAxios.delete(`/users/delete/${id}/`)
 };
+export const search_users = async (query: string) => {
+    const response = await authAxios.get(`/users/search/?query=${query}`)
+    return response.data
+};
