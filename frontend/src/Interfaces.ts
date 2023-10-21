@@ -17,3 +17,11 @@ export interface Token {
     is_staff: boolean;
     avatar: string;
 };
+
+export interface User {
+    id?: number;
+    avatar: File | null;
+    email: string;
+    name: string;
+    last_name: string;
+};
