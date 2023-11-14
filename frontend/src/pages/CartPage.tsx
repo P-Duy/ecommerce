@@ -9,14 +9,12 @@ import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const CartPage = () => {
 
+    const removeFromCart = useCartStore((state) => state.removeFromCart);
+    const addToCart = useCartStore((state) => state.addToCart);
     const removeAll = useCartStore((state) => state.removeAll);
 
-    const removeFromCart = useCartStore(state => state.removeFromCart)
-    const addToCart = useCartStore(state => state.addToCart)
-    const cart = useCartStore(state => state.cart);
-    const total_price = useCartStore(state => state.totalPrice);
-
-
+    const cart = useCartStore((state) => state.cart);
+    const total_price = useCartStore((state) => state.totalPrice);
 
     const [address, setAddress] = useState<string>("");
     const [city, setCity] = useState<string>("");
